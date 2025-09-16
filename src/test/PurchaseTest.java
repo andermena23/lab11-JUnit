@@ -29,7 +29,7 @@ public class PurchaseTest {
 		public void initialize() {
 			System.out.println("Initialize  ...");
 			
-			price= 0;	// 234.99 real value
+			price= 234.99; // real value
 			quantity = 1;
 			article = new Article("404", "MASK PINK", price, false, quantity);
 		} 
