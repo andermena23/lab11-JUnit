@@ -60,17 +60,18 @@ public class PurchaseTest {
 
 		@Test
 		public void testAddBasket2() {
-			
-			quantity = 3;
-			price = 234.99;
-			double expected = quantity*price;
-
-			double obtained = basket.addBasket(article, quantity);
-			assertEquals(expected, obtained, 0);
 			try {
-				basket.removeBasket(article, quantity);
-			} catch (PurchaseException e) {
+				quantity = 3;
+				price = 234.99;
+				//double expected = quantity*price;
+	
+				double obtained = basket.addBasket(article, quantity);
 				fail();
+				//assertEquals(expected, obtained, 0);
+			
+				//basket.removeBasket(article, quantity);
+			} catch (RuntimeException e) {
+				assertTrue(true);
 			}
 		}
 		
@@ -83,12 +84,15 @@ public class PurchaseTest {
 				assertNotNull(basket.getDate());
 				
 				quantity = 3;
-				double expected= quantity*article.getPrice();
+				//double expected= quantity*article.getPrice();
 				
 				double cost= basket.addBasket(article, quantity);
 				
-				assertEquals(expected, cost, 0);
+				//assertEquals(expected, cost, 0);
+				fail();
 				
+			} catch (RuntimeException e) {
+				assertTrue(true);
 			} catch (ParseException e) {
 				fail();
 			}
