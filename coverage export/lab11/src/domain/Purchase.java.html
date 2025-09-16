@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Purchase.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">PurchaseTest (16 sept 2025 11:28:13)</a> &gt; <a href="../../index.html" class="el_group">lab11</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">Purchase.java</span></div><h1>Purchase.java</h1><pre class="source lang-java linenums">package domain;
+
+import java.util.Date;
+import java.util.HashMap;
+
+
+import exceptions.PurchaseException;
+
+/**
+  * Represents the shopping basket with its purchased items and their cost.
+  * Once the purchase is made on a specific date (buy), it is not allowed
+  * add or remove products from the basket.
+ * @author IS2
+ *
+ */
+<span class="fc" id="L16">public class Purchase {</span>
+	private Date purchaseDate;
+	private double cost;
+<span class="fc" id="L19">	private HashMap&lt;Article, PurchasedArticle&gt; basket = new HashMap&lt;Article, PurchasedArticle&gt;();</span>
+
+	/**
+	 * Get purchase date information
+	 * 
+	 * @return date on which the purchase was made
+	 */
+	public Date getDate() {
+<span class="fc" id="L27">		return purchaseDate;</span>
+	}
+
+	/**
+	 * Indicates the current cost of the products that are in the basket
+	 * 
+	 * @return he current cost of the basket
+	 */
+	public double getCost() {
+<span class="nc" id="L36">		return cost;</span>
+	}
+
+	/**
+	 * The purchase will be made on the date indicated
+	 * 
+	 * @param d date on which the purchase is made
+	 */
+	public void buy(Date d) {
+<span class="fc" id="L45">		this.purchaseDate = d;</span>
+<span class="fc" id="L46">	}</span>
+
+	/**
+	 * Add an article to the basket.
+	 * 
+	 * @param art a new article to buy.
+	 * @param q articles units added
+	 * @return the total cost of the basket.
+	 * @throws PurchaseException 
+	 */
+	public double addBasket(Article art, int q)   {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		if (purchaseDate != null) {</span>
+<span class="fc" id="L58">			throw new RuntimeException(&quot;The purchase is closed. No articles can be added&quot;);</span>
+		}
+
+<span class="fc" id="L61">		int stock = art.getStock();</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (stock &lt; q) {</span>
+<span class="fc" id="L63">			throw new RuntimeException(&quot;There is not enough stock&quot;);</span>
+		}
+<span class="fc" id="L65">		art.setStock(stock - q);</span>
+
+<span class="fc" id="L67">		cost = cost + art.getPrice() * q;</span>
+
+<span class="fc" id="L69">		PurchasedArticle part = basket.get(art);</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">		if (part == null) {</span>
+<span class="fc" id="L71">			basket.put(art, new PurchasedArticle(art, q));</span>
+<span class="fc" id="L72">		} else {</span>
+<span class="nc" id="L73">			part.setQuantity(part.getQuantity() + q);</span>
+		}
+
+<span class="fc" id="L76">		return cost;</span>
+	}
+
+	/**
+	 * Remove a number of units of an article from the basket that is not paid yet.
+	 * @param art the removed article from the basket
+	 * @param q   the removed units 
+	 * @return    the updated cost of the basket
+	 */
+	public double removeBasket(Article art, int q) throws PurchaseException {
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">		if (purchaseDate != null) {</span>
+<span class="nc" id="L87">			throw new RuntimeException(&quot;The purchase is closed. No articles can be removed&quot;);</span>
+		}
+<span class="fc" id="L89">		int quantity = 0;</span>
+
+<span class="fc" id="L91">		PurchasedArticle purchasedArticle = basket.get(art);</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if (purchasedArticle == null) {</span>
+<span class="nc" id="L93">			throw new PurchaseException(&quot;This product was not in the basket.&quot;);</span>
+		} else {
+<span class="fc" id="L95">			quantity = purchasedArticle.getQuantity();</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">			if (quantity &lt; q) {</span>
+<span class="nc" id="L97">			throw new PurchaseException(&quot;You don't have so many items in the basket&quot;);</span>
+			}
+			
+<span class="fc" id="L100">			int stock = art.getStock();</span>
+<span class="fc" id="L101">			art.setStock(stock + q);</span>
+
+<span class="fc" id="L103">			double amount = quantity * purchasedArticle.getPrice();</span>
+<span class="fc" id="L104">			cost = cost - amount;</span>
+
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">			if (quantity &gt; q) {</span>
+<span class="nc" id="L107">				purchasedArticle.setQuantity(quantity - q);</span>
+<span class="nc" id="L108">			} else {</span>
+<span class="fc" id="L109">				basket.remove(art);</span>
+			}
+		}
+<span class="fc" id="L112">		return cost;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span>PurchaseTest (16 sept 2025 11:28:13)</div></body></html>

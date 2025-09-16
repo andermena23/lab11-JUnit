@@ -1,0 +1,4 @@
++this ("domain.PurchasedArticle"@.
+,
+	 ("#get-field# price:Bdouble
+ (*LC:/Users/Ander/Documents/GitHub/lab11-JUnit/src/domain/PurchasedArticle.java

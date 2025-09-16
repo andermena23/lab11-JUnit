@@ -1,0 +1,7 @@
+organization=andermena23
+projectKey=andermena23_lab11-JUnit
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.67222
+dashboardUrl=https://sonarcloud.io/dashboard?id=andermena23_lab11-JUnit
+ceTaskId=AZlR8Igb3SzB5PSx5q40
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZlR8Igb3SzB5PSx5q40

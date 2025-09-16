@@ -1,0 +1,4 @@
++this ("domain.PurchasedArticle"@.
+,
+	 ("#get-field# quantity:Bint
+ (*LC:/Users/Ander/Documents/GitHub/lab11-JUnit/src/domain/PurchasedArticle.java
